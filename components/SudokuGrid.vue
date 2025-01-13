@@ -45,10 +45,11 @@ const isOnSameCol = (index) => {
       }"
     >
       <button
-        class="w-full h-full text-sm hover:bg-gray-100 focus:outline-none"
+        class="w-full h-full text-sm hover:bg-gray-100 focus:outline-none dark:text-white"
         :class="{
-          'bg-violet-100': isSelected(i),
-          'bg-purple-50': !isSelected(i) && (isOnSameRow(i) || isOnSameCol(i)),
+          'bg-violet-100 dark:bg-purple-950': isSelected(i),
+          'bg-purple-50 dark:bg-purple-900':
+            !isSelected(i) && (isOnSameRow(i) || isOnSameCol(i)),
         }"
         @click="selectCell(i)"
       >
