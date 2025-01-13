@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import { getSudoku } from "sudoku-gen";
 import ConfettiExplosion from "vue-confetti-explosion";
 
 const sudoku = ref(null);
@@ -27,7 +28,7 @@ const handleSubmit = (value: number) => {
   }
 };
 
-onMounted(() => {
+const handleInit = () => {
   const sudokuData = window.localStorage.getItem("sudoku");
 
   if (sudokuData) {
@@ -37,13 +38,25 @@ onMounted(() => {
     window.localStorage.setItem("sudoku", JSON.stringify(sudoku.value));
   }
 
+  if (sudoku.value.puzzle === sudoku.value.solution) {
+    finished.value = true;
+  }
+
   if (sudoku.value) {
     puzzle.value = sudoku.value.puzzle
       .split("")
       .map((str) => (str === "-" ? 0 : +str));
     solution.value = sudoku.value.solution.split("").map((str) => +str);
   }
-});
+};
+
+const handleRestart = () => {
+  window.localStorage.removeItem("sudoku");
+  finished.value = false;
+  handleInit();
+};
+
+onMounted(handleInit);
 </script>
 
 <template>
@@ -64,12 +77,16 @@ onMounted(() => {
     @select="(val) => (selectedIndex = val)"
   />
 
-  <InputControl
-    class="mt-24 sm:mt-12"
-    :puzzle="puzzle"
-    :solution="solution"
-    :selectedIndex="selectedIndex"
-    :disabled="selectedIndex === null || puzzle[selectedIndex] !== 0"
-    @click="handleSubmit"
-  />
+  <div class="mt-24 sm:mt-12">
+    <InputControl
+      v-show="!finished"
+      :puzzle="puzzle"
+      :solution="solution"
+      :selectedIndex="selectedIndex"
+      :disabled="selectedIndex === null || puzzle[selectedIndex] !== 0"
+      @click="handleSubmit"
+    />
+
+    <GameMenu v-show="finished" @restart="handleRestart" />
+  </div>
 </template>
