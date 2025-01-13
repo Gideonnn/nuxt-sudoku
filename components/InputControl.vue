@@ -27,7 +27,7 @@ const emit = defineEmits<{
       class="w-16 h-16 rounded border hover:bg-gray-100 focus:outline-none"
       :class="{
         'bg-gray-100': puzzle[selectedIndex] === value,
-        'bg-yellow-50': !disabled && solution[selectedIndex] === value,
+        // 'bg-yellow-50': !disabled && solution[selectedIndex] === value, // Cheat
       }"
       @click="emit('click', value)"
     >
