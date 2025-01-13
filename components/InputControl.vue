@@ -6,7 +6,7 @@ const options = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const { puzzle, solution, selectedIndex, disabled } = defineProps<{
   puzzle: number[];
   solution: number[];
-  selectedIndex: number;
+  selectedIndex: number | null;
   disabled: boolean;
 }>();
 
@@ -24,7 +24,7 @@ const emit = defineEmits<{
   >
     <button
       v-for="value in options"
-      class="w-12 h-12 rounded border hover:bg-gray-100 focus:outline-none"
+      class="w-16 h-16 rounded border hover:bg-gray-100 focus:outline-none"
       :class="{
         'bg-gray-100': puzzle[selectedIndex] === value,
         'bg-yellow-50': !disabled && solution[selectedIndex] === value,

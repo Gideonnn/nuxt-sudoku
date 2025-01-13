@@ -6,7 +6,7 @@ import { getSudoku } from "sudoku-gen";
 <template>
   <NuxtRouteAnnouncer />
 
-  <div class="px-4 py-8 flex flex-col items-center">
+  <div class="h-screen px-4 py-8 flex flex-col items-center">
     <ClientOnly>
       <SudokuGame />
     </ClientOnly>

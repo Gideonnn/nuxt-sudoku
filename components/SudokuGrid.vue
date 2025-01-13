@@ -4,7 +4,7 @@ import { ref } from "vue";
 const { puzzle, solution, selectedIndex } = defineProps<{
   puzzle: number[];
   solution: number[];
-  selectedIndex: number;
+  selectedIndex: number | null;
 }>();
 
 const emit = defineEmits<{
@@ -16,15 +16,18 @@ const selectCell = (index) => {
 };
 
 const isSelected = (index) => {
-  return selectedIndex === index;
+  return selectedIndex !== null && selectedIndex === index;
 };
 
 const isOnSameRow = (index) => {
-  return Math.floor(selectedIndex / 9) === Math.floor(index / 9);
+  return (
+    selectedIndex !== null &&
+    Math.floor(selectedIndex / 9) === Math.floor(index / 9)
+  );
 };
 
 const isOnSameCol = (index) => {
-  return selectedIndex % 9 === index % 9;
+  return selectedIndex !== null && selectedIndex % 9 === index % 9;
 };
 </script>
 
@@ -44,8 +47,8 @@ const isOnSameCol = (index) => {
       <button
         class="w-full h-full text-sm hover:bg-gray-100 focus:outline-none"
         :class="{
-          'bg-gray-200': isSelected(i),
-          'bg-gray-50': !isSelected(i) && (isOnSameRow(i) || isOnSameCol(i)),
+          'bg-violet-100': isSelected(i),
+          'bg-purple-50': !isSelected(i) && (isOnSameRow(i) || isOnSameCol(i)),
         }"
         @click="selectCell(i)"
       >

@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import ConfettiExplosion from "vue-confetti-explosion";
 
 const sudoku = ref(null);
 const puzzle = ref<number[]>([]);
 const solution = ref<number[]>([]);
 const selectedIndex = ref<number | null>(null);
+const finished = ref(false);
 
 const handleSubmit = (value: number) => {
   if (solution.value[selectedIndex.value!] === value) {
@@ -18,6 +20,10 @@ const handleSubmit = (value: number) => {
         puzzle: puzzle.value.join(""),
       })
     );
+  }
+
+  if (puzzle.value.join("") === solution.value.join("")) {
+    finished.value = true;
   }
 };
 
@@ -41,6 +47,16 @@ onMounted(() => {
 </script>
 
 <template>
+  <ConfettiExplosion
+    v-if="finished"
+    class="top-[-60px]"
+    :particleCount="400"
+    :particleSize="15"
+    :stageHeight="1000"
+    :stageWidth="600"
+    :force="0.6"
+  />
+
   <SudokuGrid
     :puzzle="puzzle"
     :solution="solution"
