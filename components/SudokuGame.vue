@@ -34,7 +34,7 @@ const handleInit = () => {
   if (sudokuData) {
     sudoku.value = JSON.parse(sudokuData);
   } else {
-    sudoku.value = getSudoku("medium");
+    sudoku.value = getSudoku("easy");
     window.localStorage.setItem("sudoku", JSON.stringify(sudoku.value));
   }
 
